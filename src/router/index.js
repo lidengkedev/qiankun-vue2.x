@@ -1,29 +1,44 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+import Layout from '../layout/default.vue'
+
+import exampleRoutes from './modules/example'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
+  { path: '/', redirect: '/home', component: Layout,
+    children: [
+      { path: '/home', component: () => import(/* webpackChunkName: "home" */ '../views/home.vue'), meta: { title: 'Home' } },
+      { path: '/404', component: () => import(/* webpackChunkName: "error" */ '../views/error/404.vue'), meta: { title: '404' } },
+      { path: '/401', component: () => import(/* webpackChunkName: "error" */ '../views/error/401.vue'), meta: { title: '401' } },
+    ]
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+  { path: '/example', component: Layout, children: exampleRoutes, meta: { title: 'Example' } },
+  { path: '*', redirect: '/404' },
+  { path: '/login', component: () => import('../views/login.vue'), meta: { title: 'Login' } }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+let base = process.env.VUE_APP_ROUTER_BASE
+// 子应用作为独立系统，独立运行
+if (!window.__POWERED_BY_QIANKUN__) {
+  base = '/'
+}
+
+const createRouter = () => new VueRouter({
+  mode: 'history', // require service support
+  base,
+  scrollBehavior: () => ({ y: 0 }),
   routes
 })
+
+const router = createRouter()
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
 
 export default router

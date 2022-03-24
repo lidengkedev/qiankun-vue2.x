@@ -1,12 +1,11 @@
 <template>
   <div class="home">
-    首页
+    401
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'Home',
+  name: '401'
 }
 </script>
