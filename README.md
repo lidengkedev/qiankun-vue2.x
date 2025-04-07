@@ -1,28 +1,23 @@
-# qiankun-vue2.x
+# qiankun-vue2
 
 ## Project setup
 ```
-npm install
+pnpm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+pnpm run serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+pnpm run build
 ```
 
 ### Run your unit tests
 ```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
+pnpm run test:unit
 ```
 
 ### Customize configuration
