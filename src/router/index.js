@@ -15,6 +15,11 @@ const routes = [
       { path: '/401', component: () => import(/* webpackChunkName: "error" */ '../views/error/401.vue'), meta: { title: '401' } },
     ]
   },
+  { path: '/project/pap', component: () => import('../views/project/pap/menu.vue'),
+    children: [
+      { path: '/project/pap/home', component: () => import('../views/project/pap/home.vue'), meta: { title: 'PAP' } }
+    ]  
+  },
   { path: '/example', component: Layout, children: exampleRoutes, meta: { title: 'Example' } },
   { path: '*', redirect: '/404' },
   { path: '/login', component: () => import('../views/login.vue'), meta: { title: 'Login' } }
